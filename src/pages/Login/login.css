@@ -1,0 +1,31 @@
+.center {
+  display: flex;
+  justify-content: center;
+  margin-top: 10%;
+}
+
+.box {
+  background-color: #fff;
+  width: 420px;
+  height: 350px;
+  box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.175) !important;
+}
+
+.box h2 {
+  font-weight: bold;
+  letter-spacing: 0.1rem;
+  padding: 10px 20px;
+  margin-top: 10px;
+  margin-bottom: 25px;
+}
+
+.box form {
+  display: flex;
+  flex-direction: column;
+  padding: 0 20px;
+  margin-bottom: 30px;
+}
+
+.box a {
+  text-decoration: none;
+}

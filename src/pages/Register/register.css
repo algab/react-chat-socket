@@ -1,0 +1,30 @@
+.center-register {
+  display: flex;
+  justify-content: center;
+  margin-top: 5%;
+}
+
+.box-register {
+  background-color: #fff;
+  width: 420px;
+  height: 450px;
+  box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.175) !important;
+}
+
+.box-register h2 {
+  font-weight: bold;
+  letter-spacing: 0.1rem;
+  padding: 10px 20px;
+  margin-top: 10px;
+  margin-bottom: 25px;
+}
+
+.box-register form {
+  display: flex;
+  flex-direction: column;
+  padding: 0 20px;
+}
+
+.box-register a {
+  text-decoration: none;
+}
