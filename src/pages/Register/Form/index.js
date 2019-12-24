@@ -6,7 +6,7 @@ const Form = ({ submit, validate }) => (
     <Formik
         initialValues={{ name: '', email: '', password: '', confirm: '' }}
         validate={values => validate(values)}
-        onSubmit={values => submit(values)}
+        onSubmit={(values, { setSubmitting }) => submit(values, setSubmitting)}
     >
         {(props) => (
             <form className="mb-4" onSubmit={props.handleSubmit}>
