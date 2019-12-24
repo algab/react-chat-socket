@@ -16,9 +16,9 @@ export default class Register extends Component {
 
     handleSubmit = (data, setSubmitting) => {
         api.post('/users', data)
-            .then(data => {
+            .then(res => {
                 setSubmitting(false);
-                localStorage.setItem('user', JSON.stringify(data));
+                localStorage.setItem('user', JSON.stringify(res.data));
                 this.props.history.push('/chat');
             })
             .catch(err => {
