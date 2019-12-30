@@ -1,0 +1,41 @@
+.top {
+  height: 80px;
+  background-color: white;
+}
+
+.name-user {
+  margin-top: 10px;
+  font-size: 18px;
+  font-weight: 800;
+}
+
+.bottom-input {
+  position: sticky;
+  bottom: 0;
+  z-index: 1020;
+}
+
+.write-input {
+  background: whitesmoke;
+  border: none;
+  font-size: 14px;
+  height: 60px;
+  padding: 10px 0;
+  outline: none;
+  box-shadow: none !important;
+}
+
+.button-icon {
+  border: none;
+  background-color: transparent;
+  position: absolute;
+  top: 18px;
+  right: 10px;
+}
+
+@supports (backdrop-filter: blur(20px)) {
+  .top {
+    background-color: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(20px);
+  }
+}
