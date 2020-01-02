@@ -4,6 +4,7 @@ import { faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
 
 import api from '../../../services/api';
+import socket from '../../../services/socket';
 
 import './list.css';
 
@@ -15,7 +16,17 @@ export default class List extends Component {
         axios.all([
             api.get(`/conversations/users/${id}`),
             api.get('/users'),
-        ]).then(res => this.setState({ conversations: res[0].data, users: res[1].data, filter: res[1].data }));
+        ]).then(res => {
+            this.socketIO();
+            this.setState({ conversations: res[0].data, users: res[1].data, filter: res[1].data });
+        });
+    }
+
+    socketIO = () => {
+        const id = JSON.parse(localStorage.getItem('user'))._id;
+        socket.on(`${id}-last-messages`, (data) => {
+            this.setState({ conversations: data });
+        });
     }
 
     handleChange = (e) => {
@@ -31,8 +42,9 @@ export default class List extends Component {
         }, 200);
     }
 
-    select = (data) => () => {
-        console.log(data);
+    logout = () => {
+        this.props.history.push('/');
+        localStorage.removeItem('user');
     }
 
     listConversations = () => {
@@ -45,11 +57,16 @@ export default class List extends Component {
             )
         } else {
             return conversations.map(data => (
-                <div key={data._id} className="conversation-list-item">
-                    <img className="conversation-photo" src={data.avatar_url} alt="avatar" />
-                    <div className="conversation-info">
-                        <h1 className="conversation-title">{data.name}</h1>
-                        <p className="conversation-snippet">Teste</p>
+                <div key={data._id} className="conversation-list-item justify-content-between" onClick={this.props.select(data.user[0]._id)}>
+                    <div className="d-flex flex-row align-items-center">
+                        <img className="conversation-photo" src={data.user[0].avatar_url} alt="avatar" />
+                        <div>
+                            <h1 className="conversation-title">{data.user[0].name}</h1>
+                            <p className="conversation-snippet">{data.last_message.message}</p>
+                        </div>
+                    </div>
+                    <div className="conversation-time">
+                        {`${new Date(data.last_message.timestamp).getHours()}:${new Date(data.last_message.timestamp).getMinutes()}`}
                     </div>
                 </div>
             ));
@@ -59,9 +76,9 @@ export default class List extends Component {
     listUsers = () => {
         const { filter } = this.state;
         return filter.map(data => (
-            <div key={data._id} className="conversation-list-item" onClick={this.select(data._id)}>
+            <div key={data._id} className="conversation-list-item" onClick={this.props.select(data._id)}>
                 <img className="conversation-photo" src={data.avatar_url} alt="avatar" />
-                <div className="conversation-info">
+                <div>
                     <h1 className="conversation-title">{data.name}</h1>
                     <p className="conversation-snippet">{data.email}</p>
                 </div>
@@ -75,7 +92,7 @@ export default class List extends Component {
             <div className="d-flex flex-column h-100">
                 <div className="d-flex flex-row justify-content-between align-items-center">
                     <h1 className="toolbar-title">Minhas Conversas</h1>
-                    <button className="button-logout">
+                    <button className="button-logout" onClick={this.logout}>
                         <FontAwesomeIcon icon={faSignOutAlt} size="1x" />
                     </button>
                 </div>
