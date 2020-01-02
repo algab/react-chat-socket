@@ -1,0 +1,20 @@
+.bubble-message {
+  border-radius: 15px;
+  padding: 10px;
+  margin-bottom: 10px;
+  max-width: 40%;
+}
+
+.bubble-from {
+  background-color: #007aff;
+  color: white;
+  margin-right: 10px;
+  align-self: flex-end;
+}
+
+.bubble-to {
+  background-color: #f4f4f8;
+  color: black;
+  margin-left: 10px;
+  align-self: end;
+}
