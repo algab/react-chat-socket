@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
+import { format } from 'date-fns';
 
 import api from '../../../services/api';
 import socket from '../../../services/socket';
@@ -66,7 +67,7 @@ export default class List extends Component {
                         </div>
                     </div>
                     <div className="conversation-time">
-                        {`${new Date(data.last_message.timestamp).getHours()}:${new Date(data.last_message.timestamp).getMinutes()}`}
+                        {format(data.last_message.timestamp, 'HH:mm')}
                     </div>
                 </div>
             ));
