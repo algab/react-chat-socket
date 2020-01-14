@@ -20,7 +20,7 @@
   border: none;
   font-size: 14px;
   height: 60px;
-  padding: 10px 0;
+  padding: 10px 10px;
   outline: none;
   box-shadow: none !important;
 }
@@ -31,6 +31,16 @@
   position: absolute;
   top: 18px;
   right: 10px;
+}
+
+.button-icon:hover {
+  outline: none;
+}
+
+.bubble-container {
+  display: flex;
+  flex-direction: column;
+  min-height: calc(100% - 80px - 60px);
 }
 
 @supports (backdrop-filter: blur(20px)) {
