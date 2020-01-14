@@ -10,7 +10,15 @@ import socket from '../../../services/socket';
 import './list.css';
 
 export default class List extends Component {
-    state = { conversations: [], users: [], filter: [], render: 'conversation' };
+    constructor(props) {
+        super(props);
+        this.state = {
+            conversations: [],
+            users: [],
+            filter: [],
+            render: 'conversation'
+        };
+    };
 
     componentDidMount() {
         const id = JSON.parse(localStorage.getItem('user'))._id;
@@ -21,32 +29,34 @@ export default class List extends Component {
             this.socketIO();
             this.setState({ conversations: res[0].data, users: res[1].data, filter: res[1].data });
         });
-    }
+    };
 
     socketIO = () => {
         const id = JSON.parse(localStorage.getItem('user'))._id;
         socket.on(`${id}-last-messages`, (data) => {
             this.setState({ conversations: data });
         });
-    }
+    };
 
     handleChange = (e) => {
-        const { users } = this.state;
         e.persist();
+        const { users } = this.state;
+        const id = JSON.parse(localStorage.getItem('user'))._id;
         setTimeout(() => {
             if (e.target.value !== '') {
-                const filter = users.filter(data => data.name.search(new RegExp(e.target.value, 'i')) !== -1);
+                const filter = users.filter(data => data._id !== id)
+                    .filter(data => data.name.search(new RegExp(e.target.value, 'i')) !== -1);
                 this.setState({ filter, render: 'user' });
             } else {
                 this.setState({ render: 'conversation' });
             }
         }, 200);
-    }
+    };
 
     logout = () => {
-        this.props.history.push('/');
+        this.props.history.push('/', { logout: true });
         localStorage.removeItem('user');
-    }
+    };
 
     listConversations = () => {
         const { conversations } = this.state;
@@ -107,4 +117,4 @@ export default class List extends Component {
             </div>
         )
     }
-}
+};
