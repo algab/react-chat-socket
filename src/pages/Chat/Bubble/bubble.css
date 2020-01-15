@@ -23,6 +23,10 @@
   border-top-left-radius: 0px;
 }
 
+.last-bubble {
+  margin-bottom: 70px;
+}
+
 .timestamp {
   font-size: 8px;
   margin-top: 2px;

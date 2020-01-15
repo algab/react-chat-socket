@@ -26,13 +26,13 @@ export default class List extends Component {
             api.get(`/conversations/users/${id}`),
             api.get('/users'),
         ]).then(res => {
-            this.socketIO();
-            this.setState({ conversations: res[0].data, users: res[1].data, filter: res[1].data });
+            const users = res[1].data.filter(user => user._id !== id);
+            this.socketIO(id);
+            this.setState({ conversations: res[0].data, users, filter: users });
         });
     };
 
-    socketIO = () => {
-        const id = JSON.parse(localStorage.getItem('user'))._id;
+    socketIO = (id) => {
         socket.on(`${id}-last-messages`, (data) => {
             this.setState({ conversations: data });
         });
@@ -41,11 +41,9 @@ export default class List extends Component {
     handleChange = (e) => {
         e.persist();
         const { users } = this.state;
-        const id = JSON.parse(localStorage.getItem('user'))._id;
         setTimeout(() => {
             if (e.target.value !== '') {
-                const filter = users.filter(data => data._id !== id)
-                    .filter(data => data.name.search(new RegExp(e.target.value, 'i')) !== -1);
+                const filter = users.filter(data => data.name.search(new RegExp(e.target.value, 'i')) !== -1);
                 this.setState({ filter, render: 'user' });
             } else {
                 this.setState({ render: 'conversation' });
@@ -54,7 +52,7 @@ export default class List extends Component {
     };
 
     logout = () => {
-        this.props.history.push('/', { logout: true });
+        this.props.history.push('/');
         localStorage.removeItem('user');
     };
 
@@ -82,7 +80,7 @@ export default class List extends Component {
                 </div>
             ));
         }
-    }
+    };
 
     listUsers = () => {
         const { filter } = this.state;
@@ -95,7 +93,7 @@ export default class List extends Component {
                 </div>
             </div>
         ));
-    }
+    };
 
     render() {
         const { render } = this.state;
